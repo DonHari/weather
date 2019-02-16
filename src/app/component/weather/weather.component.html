@@ -1,0 +1,8 @@
+<div>
+  <input [(ngModel)]="country" name="country" type="text" placeholder="country"/>
+  <input [(ngModel)]="city" name="city" type="text" placeholder="city"/>
+  <button (click)="getWeather()">Get weather</button>
+  <div *ngIf="result">
+    {{result}}
+  </div>
+</div>
