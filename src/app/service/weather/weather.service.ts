@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 
 @Injectable({
@@ -8,19 +8,17 @@ import {Observable} from "rxjs";
 })
 export class WeatherService {
 
-  private apiKey = "eff591e26e608cceeb3977ee0bfacbbe";
+  private apiKey = 'eff591e26e608cceeb3977ee0bfacbbe';
   private apiPath = `https://api.openweathermap.org/data/2.5/weather?appid=${this.apiKey}&q=`;
 
   constructor(
     private http: HttpClient
-  ) {
-  }
+  ) {}
 
   getWeather(country: string, city: string, callback) {
     const url = this.prepareRequestUrl(country, city);
     this.sendRequest(url).subscribe((response) => {
-      console.log(response);
-      callback(response['main']['temp']);
+      callback(parseFloat(response['main'].temp) - 275);
     });
   }
 

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {WeatherComponent} from './component/weather/weather.component';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'weather-app';
+
+
+  @ViewChild(WeatherComponent)
+  weatherBlock: WeatherComponent;
+
+  getCurrentClassNames() {
+    return this.weatherBlock.getClassNames();
+  }
+
 }
+
