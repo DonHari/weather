@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {WeatherService} from '../../service/weather/weather.service';
 import {AnotherWeatherService} from '../../service/another/another-weather.service';
 
@@ -28,7 +28,7 @@ export class WeatherComponent {
     //   this.updateResult(response);
     // });
 
-    this.weatherService.getWeather(this.country, this.city, (response) => {
+    this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
       this.updateResult(response);
     });
   }
@@ -36,7 +36,6 @@ export class WeatherComponent {
   getClassNames() {
     return this.classNames;
   }
-
 
   private updateResult(response: string) {
     this.defaultClassNames();

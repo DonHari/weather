@@ -9,7 +9,6 @@ import {WeatherComponent} from './component/weather/weather.component';
 export class AppComponent {
   title = 'weather-app';
 
-
   @ViewChild(WeatherComponent)
   weatherBlock: WeatherComponent;
 
