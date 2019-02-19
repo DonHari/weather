@@ -1,8 +1,12 @@
-<div>
-  <input [(ngModel)]="country" name="country" type="text" placeholder="country"/>
-  <input [(ngModel)]="city" name="city" type="text" placeholder="city"/>
-  <button (click)="getWeather()">Get weather</button>
-  <div *ngIf="result">
+<div class="es-form-elm">
+  <input [(ngModel)]="country" name="country" type="text" placeholder="Enter country..."/>
+  <input [(ngModel)]="city" name="city" type="text" placeholder="Enter city..."/>
+  <div class="btn-container">
+    <button (click)="getWeather()" [class.es-disabled]="disableSend">Get weather</button>
+    <div class="left-block"></div>
+    <div class="right-block"></div>
+  </div>
+  <div class="es-result" *ngIf="result">
     {{result}}
   </div>
 </div>

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {WeatherService} from '../../service/weather/weather.service';
 import {AnotherWeatherService} from '../../service/another/another-weather.service';
 
@@ -12,6 +12,9 @@ export class WeatherComponent {
   private country: string;
   private result: string;
 
+  private disableSend = false;
+
+  @Input()
   classNames: any = {
     cold: false,
     hot: false,
@@ -27,7 +30,7 @@ export class WeatherComponent {
     // this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
     //   this.updateResult(response);
     // });
-
+    this.disableSend = true;
     this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
       this.updateResult(response);
     });
@@ -41,6 +44,7 @@ export class WeatherComponent {
     this.defaultClassNames();
     this.result = response;
     this.setClassName(parseFloat(response));
+    this.disableSend = false;
   }
 
   private defaultClassNames(): void {
@@ -54,9 +58,9 @@ export class WeatherComponent {
   }
 
   private setClassName(temp): void {
-    if (temp <= -10) {
+    if (temp <= 0) {
       this.classNames.cold = true;
-    } else if (temp >= 20) {
+    } else if (temp >= 25) {
       this.classNames.hot = true;
     } else {
       this.classNames.normal = true;
