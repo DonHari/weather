@@ -10,9 +10,10 @@ import {AnotherWeatherService} from '../../service/another/another-weather.servi
 export class WeatherComponent {
   private city: string;
   private country: string;
-  private result: string;
+  private result = 'Send request';
 
-  private disableSend = false;
+  private enableSend = true;
+
 
   @Input()
   classNames: any = {
@@ -30,10 +31,12 @@ export class WeatherComponent {
     // this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
     //   this.updateResult(response);
     // });
-    this.disableSend = true;
-    this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
-      this.updateResult(response);
-    });
+    if(this.enableSend) {
+      this.enableSend = false;
+      this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
+        this.updateResult(response);
+      });
+    }
   }
 
   getClassNames() {
@@ -44,7 +47,7 @@ export class WeatherComponent {
     this.defaultClassNames();
     this.result = response;
     this.setClassName(parseFloat(response));
-    this.disableSend = false;
+    this.enableSend = true;
   }
 
   private defaultClassNames(): void {
