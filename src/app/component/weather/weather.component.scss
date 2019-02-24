@@ -1,3 +1,12 @@
+.es-result{
+  font-size: 60px;
+  text-transform: uppercase;
+  font-family: Georgia, sans-serif;
+  font-style: italic;
+  color: #fff;
+  margin-bottom: 40px;
+}
+
 .es-disabled{
   opacity: .7;
   cursor: not-allowed;
@@ -6,12 +15,15 @@
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
+  transition: none;
+  border: 1px solid #ff3d1d!important;
   *{
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     pointer-events: none;
+    border: none;
   }
 }
 :host {
@@ -23,14 +35,21 @@
 }
 
 :host-context{
+  transition: all .5s linear;
+  background-size: cover;
+  background-color: transparent;
+  background: url("https://archangelsanddevas.files.wordpress.com/2013/10/rays-of-light.jpg?width=600");
   &.cold{
-    background: blue;
+    background-size: cover;
+    background: url("https://financialtribune.com/sites/default/files/field/image/november/11_6_winter_apps_550_lead-ed.jpg");
   }
   &.hot{
-    background: red;
+    background-size: cover;
+    background: url("https://flexappealreno.com/wp-content/uploads/2017/04/summer-photographer-pier-adventure.jpg");
   }
   &.normal{
-    background: orange;
+    background-size: cover;
+    background: url("https://peopledotcom.files.wordpress.com/2018/03/tulip-field-sunrise-spring-equinox.jpg");
   }
 
   .es-form-elm{
@@ -43,7 +62,7 @@
       flex-basis: 25%;
       height: 40px;
       padding: 0 15px;
-      border: 1px solid #e9e9e9;
+      border: 1px solid #a1a1a1;
       outline: none;
       font-weight: 500;
       transition: all .3s ease;
@@ -136,8 +155,8 @@
         background: #221e1f;
         color: #fff;
         text-transform: uppercase;
-        transition: all .3s ease;
-        transition-delay: 1s;
+        //transition: all .3s ease;
+        //transition-delay: 1s;
         outline: none;
         border: 1px solid #221e1f;
 
