@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {WeatherService} from '../../service/weather/weather.service';
-import {AnotherWeatherService} from '../../service/another/another-weather.service';
+import {DarkskyWeatherService} from '../../service/darksky/darksky-weather.service';
 
 @Component({
   selector: 'app-weather',
@@ -14,7 +14,6 @@ export class WeatherComponent {
 
   private disableSend = false;
 
-  @Input()
   classNames: any = {
     cold: false,
     hot: false,
@@ -22,7 +21,7 @@ export class WeatherComponent {
   };
 
   constructor(private weatherService: WeatherService,
-              private anotherWeatherService: AnotherWeatherService) {
+              private anotherWeatherService: DarkskyWeatherService) {
   }
 
 
@@ -30,6 +29,7 @@ export class WeatherComponent {
     // this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
     //   this.updateResult(response);
     // });
+
     this.disableSend = true;
     this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
       this.updateResult(response);

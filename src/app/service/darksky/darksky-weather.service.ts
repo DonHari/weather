@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {GeococdeService} from '../coordinates/geococde.service';
+import {HttpClient} from '@angular/common/http';
+import {GeocodeService} from '../coordinates/geocode.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AnotherWeatherService {
+export class DarkskyWeatherService {
   
   private appId = 'bb72634788f19c232216604d230e96ed';
   private proxy = 'https://cors.io/?';
@@ -17,19 +17,22 @@ export class AnotherWeatherService {
 
   constructor(
     private http: HttpClient,
-    private geocode: GeococdeService
+    private geocode: GeocodeService
   ) {}
+
+  private getCoordinatesFromResponse(response) {
+    return response.results[0].locations[0].latLng;
+  }
 
   getWeather(country: string, city: string, callback) {
     this.getGeocode(city, country).subscribe((response: any) => {
       if (response && response.results) {
-        console.log('я сюда зашел');
-        this.lat = response.results[0].locations[0].latLng.lat;
-        this.lng = response.results[0].locations[0].latLng.lng;
+        this.lat = this.getCoordinatesFromResponse(response).lat;
+        this.lng = this.getCoordinatesFromResponse(response).lng;
 
         this.sendRequest().subscribe((weatherResp: any) => {
           if (weatherResp) {
-            callback(this.getInCel(weatherResp.currently.temperature));
+            callback(this.getInCelsius(weatherResp.currently.temperature));
           }
         });
 
@@ -42,7 +45,6 @@ export class AnotherWeatherService {
    }
 
    private sendRequest(): Observable<string> {
-     console.log('url', this.prepareRequestUrl() );
      return this.http.get<string>(this.prepareRequestUrl());
    }
 
@@ -50,7 +52,7 @@ export class AnotherWeatherService {
     return this.http.get<string>(this.geocode.prepareURI(city, country));
   }
   
-  private getInCel(result) {
+  private getInCelsius(result) {
     return ((result - 32) / 1.8).toFixed(0);
   }
 

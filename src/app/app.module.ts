@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {WeatherComponent} from './component/weather/weather.component';
 import {WeatherService} from './service/weather/weather.service';
-import {GeococdeService} from './service/coordinates/geococde.service';
+import {GeocodeService} from './service/coordinates/geocode.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import {GeococdeService} from './service/coordinates/geococde.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [WeatherService, HttpClient, GeococdeService],
+  providers: [WeatherService, HttpClient, GeocodeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

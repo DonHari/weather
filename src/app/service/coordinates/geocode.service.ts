@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GeococdeService {
+export class GeocodeService {
 
   constructor(private http: HttpClient) { }
 
@@ -13,7 +13,7 @@ export class GeococdeService {
   private apiPath = `http://open.mapquestapi.com/geocoding/v1/address?key=${this.apiKey}&location=`;
   currentUrl: string;
 
-  getLocation(city: string, country: string): string {
+  private getLocation(city: string, country: string): string {
     return `${city},${country}`;
   }
 
