@@ -12,7 +12,7 @@ import {DarkskyWeatherService} from '../../service/darksky/darksky-weather.servi
 export class WeatherComponent {
   private city: string;
   private country: string;
-  private result = 'Send request';
+  private result: string;
 
   private enableSend = true;
 
@@ -24,22 +24,39 @@ export class WeatherComponent {
     normal: false
   };
 
-  constructor(private weatherService: WeatherService,
-              private anotherWeatherService: DarkskyWeatherService) {
+
+  changeService = 'openWeather';
+
+  constructor(
+    private weatherService: WeatherService,
+    private anotherWeatherService: DarkskyWeatherService) {
   }
 
 
   getWeather() {
-    // this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
-    //   this.updateResult(response);
-    // });
-    if(this.enableSend) {
+    if (this.enableSend) {
       this.enableSend = false;
-      this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
-        this.updateResult(response);
-      });
+      switch (this.changeService) {
+        case 'openWeather' : {
+          this.weatherService.getWeather(this.country, this.city, (response) => {
+            this.updateResult(response);
+          });
+          break;
+        }
+        case 'darkSky' : {
+          this.anotherWeatherService.getWeather(this.country, this.city, (response) => {
+            this.updateResult(response);
+          });
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+
     }
   }
+
 
   getClassNames() {
     return this.classNames;
@@ -47,8 +64,13 @@ export class WeatherComponent {
 
   private updateResult(response: string) {
     this.defaultClassNames();
-    this.result = response;
-    this.setClassName(parseFloat(response));
+    
+    if (response !== '404') {
+      this.result = response;
+      this.setClassName(parseFloat(response));
+    } else {
+      this.result = 'Error happened, try again later';
+    }
     this.enableSend = true;
   }
 

@@ -1,12 +1,24 @@
 <div class="es-form-elm">
+  <div class="serviceName">{{changeService}}</div>
   <div class="es-result" *ngIf="result" [ngClass]="classNames">
     {{result}}
   </div>
   <input [(ngModel)]="country" name="country" type="text" placeholder="Enter country..."/>
   <input [(ngModel)]="city" name="city" type="text" placeholder="Enter city..."/>
-  <div class="btn-container" [class.es-disabled]="!enableSend">
+  <div class="btn-container" [class.es-disabled]="!enableSend || !country || !city">
     <button (click)="getWeather()">Get weather</button>
     <div class="left-block"></div>
     <div class="right-block"></div>
+  </div>
+
+  <div class="es-radio-container">
+    <div class="radio-container">
+      <input type="radio" name="service" id="weatherService" [value]="'openWeather'" [(ngModel)]="changeService">
+      <label for="weatherService">openWeather</label>
+    </div>
+    <div class="radio-container">
+      <input type="radio" id="darkSky" name="service" [value]="'darkSky'" [(ngModel)]="changeService">
+      <label for="darkSky">darkSky</label>
+    </div>
   </div>
 </div>

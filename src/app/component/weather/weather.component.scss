@@ -1,12 +1,22 @@
 .es-result{
-  font-size: 60px;
+  font-size: 40px;
   text-transform: uppercase;
   font-family: Georgia, sans-serif;
   font-style: italic;
   color: #fff;
   margin-bottom: 40px;
 }
-
+.serviceName{
+  font-size: 60px;
+  text-transform: uppercase;
+  font-family: Georgia, sans-serif;
+  font-style: italic;
+  color: #fff;
+  margin-bottom: 20px;
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+}
 .es-disabled{
   opacity: .7;
   cursor: not-allowed;
@@ -37,8 +47,7 @@
 :host-context{
   transition: all .5s linear;
   background-size: cover;
-  background-color: transparent;
-  background: url("https://archangelsanddevas.files.wordpress.com/2013/10/rays-of-light.jpg?width=600");
+  background: transparent url("https://archangelsanddevas.files.wordpress.com/2013/10/rays-of-light.jpg?width=600");
   &.cold{
     background-size: cover;
     background: url("https://financialtribune.com/sites/default/files/field/image/november/11_6_winter_apps_550_lead-ed.jpg");
@@ -58,7 +67,22 @@
     flex-basis: 100%;
     max-width: 100%;
     flex-wrap: wrap;
-    input{
+    .es-radio-container{
+      flex-basis: 100%;
+      max-width: 100%;
+      margin-top: 20px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      .radio-container{
+        margin-left: 20px;
+        margin-right: 20px;
+        label{
+          color: #fff;
+        }
+      }
+    }
+    input[type="text"]{
       flex-basis: 25%;
       height: 40px;
       padding: 0 15px;

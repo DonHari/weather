@@ -17,9 +17,15 @@ export class WeatherService {
 
   getWeather(country: string, city: string, callback) {
     const url = this.prepareRequestUrl(country, city);
-    this.sendRequest(url).subscribe((response) => {
-      callback(this.toCelvin(response));
-    });
+    this.sendRequest(url).subscribe(
+
+    (response: any) => {
+            callback(this.toCelvin(response));
+        },
+    error => {
+            callback(error.status.toString());
+        }
+      );
   }
 
   private toCelvin(response) {

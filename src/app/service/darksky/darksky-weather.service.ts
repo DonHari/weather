@@ -30,14 +30,22 @@ export class DarkskyWeatherService {
         this.lat = this.getCoordinatesFromResponse(response).lat;
         this.lng = this.getCoordinatesFromResponse(response).lng;
 
-        this.sendRequest().subscribe((weatherResp: any) => {
+        this.sendRequest().subscribe(
+          (weatherResp: any) => {
           if (weatherResp) {
             callback(this.getInCelsius(weatherResp.currently.temperature));
           }
-        });
+        },
+          error => {
+            callback(error.status.toString());
+          }
+          );
 
       }
-    });
+    },
+      error => {
+        callback(error.status.toString());
+      });
   }
 
    private prepareRequestUrl(): string {
