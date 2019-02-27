@@ -13,6 +13,7 @@
             "app",
             "kebab-case"
         ],
+      "quotemark": false,
       "no-string-literal": false,
       "no-trailing-whitespace": false
     }

@@ -9,6 +9,7 @@ import {WeatherComponent} from './component/weather/weather.component';
 import {WeatherService} from './service/weather/weather.service';
 import {GeocodeService} from './service/coordinates/geocode.service';
 import { LoaderComponent } from './component/loader/loader.component';
+import {HttpRequestService} from "./service/request/http-request.service";
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { LoaderComponent } from './component/loader/loader.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [WeatherService, HttpClient, GeocodeService],
+  providers: [WeatherService, HttpClient, GeocodeService, HttpRequestService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

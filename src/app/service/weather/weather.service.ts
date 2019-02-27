@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {HttpRequestService} from "../request/http-request.service";
 
 
 @Injectable({
@@ -12,17 +13,20 @@ export class WeatherService {
   private apiPath = `https://api.openweathermap.org/data/2.5/weather?appid=${this.apiKey}&q=`;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private httpRequest: HttpRequestService
   ) {}
 
   getWeather(country: string, city: string, callback) {
     const url = this.prepareRequestUrl(country, city);
-    this.sendRequest(url).subscribe(
+    this.httpRequest.sendHttpGetRequest(url).subscribe(
 
     (response: any) => {
+            console.log('next', response);
             callback(this.toCelvin(response));
         },
     error => {
+            console.log('error', error);
             callback(error.status.toString());
         }
       );
@@ -40,7 +44,7 @@ export class WeatherService {
     return this.apiPath + city + ',' + country;
   }
 
-  private sendRequest(url: string): Observable<string> {
-    return this.http.get<string>(url);
-  }
+  // private sendRequest(url: string): Observable<string> {
+  //   return this.http.get<string>(url);
+  // }
 }
