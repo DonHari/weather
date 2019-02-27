@@ -1,8 +1,11 @@
 <div class="es-form-elm">
   <div class="serviceName">{{changeService}}</div>
-  <div class="es-result" *ngIf="result" [ngClass]="classNames">
+  <div class="es-result" *ngIf="result && enableSend" [ngClass]="classNames">
     {{result}}
   </div>
+
+  <app-loader  *ngIf="!enableSend"></app-loader>
+
   <input [(ngModel)]="country" name="country" type="text" placeholder="Enter country..."/>
   <input [(ngModel)]="city" name="city" type="text" placeholder="Enter city..."/>
   <div class="btn-container" [class.es-disabled]="!enableSend || !country || !city">

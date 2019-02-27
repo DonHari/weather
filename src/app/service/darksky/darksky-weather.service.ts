@@ -1,13 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GeocodeService} from '../coordinates/geocode.service';
+
+const headers = new HttpHeaders({'Access-Control-Allow-Origin': 'https://www.google.com'});
 
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class DarkskyWeatherService {
-  
+
+
   private appId = 'bb72634788f19c232216604d230e96ed';
   private proxy = 'https://cors.io/?';
   private apiPath = 'https://api.darksky.net/forecast/';
@@ -25,10 +30,12 @@ export class DarkskyWeatherService {
   }
 
   getWeather(country: string, city: string, callback) {
+
     this.getGeocode(city, country).subscribe((response: any) => {
       if (response && response.results) {
         this.lat = this.getCoordinatesFromResponse(response).lat;
         this.lng = this.getCoordinatesFromResponse(response).lng;
+
 
         this.sendRequest().subscribe(
           (weatherResp: any) => {
@@ -57,9 +64,9 @@ export class DarkskyWeatherService {
    }
 
   private getGeocode(city: string, country: string): Observable<string> {
-    return this.http.get<string>(this.geocode.prepareURI(city, country));
+    return this.http.get<string>(this.geocode.prepareURI(city, country), {headers});
   }
-  
+
   private getInCelsius(result) {
     return ((result - 32) / 1.8).toFixed(0);
   }

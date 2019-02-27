@@ -17,12 +17,15 @@ export class WeatherComponent {
   private enableSend = true;
 
 
+
   @Input()
   classNames: any = {
     cold: false,
     hot: false,
     normal: false
   };
+
+    showLoader = false;
 
 
   changeService = 'openWeather';
@@ -64,7 +67,7 @@ export class WeatherComponent {
 
   private updateResult(response: string) {
     this.defaultClassNames();
-    
+
     if (response !== '404') {
       this.result = response;
       this.setClassName(parseFloat(response));

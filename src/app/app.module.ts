@@ -8,11 +8,13 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {WeatherComponent} from './component/weather/weather.component';
 import {WeatherService} from './service/weather/weather.service';
 import {GeocodeService} from './service/coordinates/geocode.service';
+import { LoaderComponent } from './component/loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WeatherComponent
+    WeatherComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
