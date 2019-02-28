@@ -42,6 +42,7 @@ export class WeatherComponent {
       switch (this.changeService) {
         case 'openWeather' : {
           this.weatherService.getWeather(this.country, this.city, (response) => {
+            console.log('тута')
             this.updateResult(response);
           });
           break;

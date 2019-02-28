@@ -19,20 +19,23 @@ export class WeatherService {
 
   getWeather(country: string, city: string, callback) {
     const url = this.prepareRequestUrl(country, city);
-    this.httpRequest.sendHttpGetRequest(url).subscribe(
-
-    (response: any) => {
-            console.log('next', response);
-            callback(this.toCelvin(response));
-        },
-    error => {
-            console.log('error', error);
-            callback(error.status.toString());
-        }
+    console.log('смотри сюда', this.httpRequest.sendHttpGetRequest(url));
+    this.httpRequest.sendHttpGetRequest(url)
+       .subscribe(
+      (response: any) => {
+              console.log('next 98765', response);
+              callback(this.toCelvin(response));
+          },
+      error => {
+              console.log('error 12345', error);
+              callback(error.status.toString());
+          },
+         () => console.log('HTTP request completed.')
       );
   }
 
   private toCelvin(response) {
+    console.log('to celvin');
     return parseFloat(this.getTemperatureFromResponse(response)) - 275;
   }
 
