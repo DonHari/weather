@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
 import {HttpRequestService} from "../request/http-request.service";
 
 
@@ -26,8 +25,9 @@ export class WeatherService {
               callback(this.toCelvin(response));
           },
       error => {
-              console.error(error);
-              // callback(error.status.toString());
+              console.error('error', error);
+              error.status = 0;
+              callback(error);
           },
          () => console.log('HTTP request completed.')
       );

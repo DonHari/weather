@@ -27,7 +27,6 @@ export class WeatherComponent {
 
     showLoader = false;
 
-
   changeService = 'openWeather';
 
   constructor(
@@ -35,14 +34,12 @@ export class WeatherComponent {
     private anotherWeatherService: DarkskyWeatherService) {
   }
 
-
   getWeather() {
     if (this.enableSend) {
       this.enableSend = false;
       switch (this.changeService) {
         case 'openWeather' : {
           this.weatherService.getWeather(this.country, this.city, (response) => {
-            console.log('тута')
             this.updateResult(response);
           });
           break;
@@ -66,10 +63,10 @@ export class WeatherComponent {
     return this.classNames;
   }
 
-  private updateResult(response: string) {
+  private updateResult(response: any) {
     this.defaultClassNames();
-
-    if (response !== '404') {
+    console.log('response', response, typeof response);
+    if (response.status !== 0 ) {
       this.result = response;
       this.setClassName(parseFloat(response));
     } else {
@@ -77,6 +74,7 @@ export class WeatherComponent {
     }
     this.enableSend = true;
   }
+
 
   private defaultClassNames(): void {
 

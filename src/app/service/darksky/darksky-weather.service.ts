@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {GeocodeService} from '../coordinates/geocode.service';
+import {HttpRequestService} from '../request/http-request.service';
 
 const headers = new HttpHeaders({'Access-Control-Allow-Origin': 'https://www.google.com'});
 
@@ -21,7 +22,7 @@ export class DarkskyWeatherService {
 
 
   constructor(
-    private http: HttpClient,
+    private httpRequest: HttpRequestService,
     private geocode: GeocodeService
   ) {}
 
@@ -44,14 +45,16 @@ export class DarkskyWeatherService {
           }
         },
           error => {
-            callback(error.status.toString());
+            error.status = 0;
+            callback(error);
           }
           );
 
       }
     },
       error => {
-        callback(error.status.toString());
+        error.status = 0;
+        callback(error);
       });
   }
 
@@ -59,12 +62,12 @@ export class DarkskyWeatherService {
     return `${this.proxy}${this.apiPath}${this.appId}/${this.lat},${this.lng}`;
    }
 
-   private sendRequest(): Observable<string> {
-     return this.http.get<string>(this.prepareRequestUrl());
+   private sendRequest(): Observable<any> {
+     return this.httpRequest.sendHttpGetRequest(this.prepareRequestUrl());
    }
 
-  private getGeocode(city: string, country: string): Observable<string> {
-    return this.http.get<string>(this.geocode.prepareURI(city, country), {headers});
+  private getGeocode(city: string, country: string): Observable<any> {
+    return this.httpRequest.sendHttpGetRequest(this.geocode.prepareURI(city, country));
   }
 
   private getInCelsius(result) {
