@@ -19,7 +19,6 @@ export class WeatherService {
 
   getWeather(country: string, city: string, callback) {
     const url = this.prepareRequestUrl(country, city);
-    console.log('смотри сюда', this.httpRequest.sendHttpGetRequest(url));
     this.httpRequest.sendHttpGetRequest(url)
        .subscribe(
       (response: any) => {
@@ -27,8 +26,8 @@ export class WeatherService {
               callback(this.toCelvin(response));
           },
       error => {
-              console.log('error 12345', error);
-              callback(error.status.toString());
+              console.error(error);
+              // callback(error.status.toString());
           },
          () => console.log('HTTP request completed.')
       );

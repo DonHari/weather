@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {observable, Observable, of, throwError} from 'rxjs';
-import {catchError, concatMap, delay, retryWhen, scan, take} from 'rxjs/operators';
-import {Error} from 'tslint/lib/error';
+import {Observable, Subject, throwError} from 'rxjs/';
+import {catchError, delay, map, retryWhen, scan, take} from 'rxjs/operators';
+// import {Error} from 'tslint/lib/error';
 
 const headers = new HttpHeaders();
 // .set('Access-Control-Allow-Origin', '*')
@@ -25,19 +25,20 @@ export class HttpRequestService {
       retryWhen(errors => {
           return errors
             .pipe(scan(
-                (attemptCount) => {
+                (attemptCount, error) => {
                   attemptCount++;
 
                   if (attemptCount <= 2) {
                     return attemptCount;
                   } else {
-                     throw errors;
+                    throw error;
                   }
                 }, 0))
+
             .pipe(delay(1000))
             .pipe(take(3));
 
-        }
+        },
       )
   );
 
