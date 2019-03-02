@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from '../../service/weather/weather.service';
 import {DarkskyWeatherService} from '../../service/darksky/darksky-weather.service';
 
@@ -9,14 +9,12 @@ import {DarkskyWeatherService} from '../../service/darksky/darksky-weather.servi
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent {
-  private city: string;
-  private country: string;
+export class WeatherComponent implements OnInit {
+
+  private city = 'Dnipro';
+  private country = 'UA';
   private result: string;
-
   private enableSend = true;
-
-
 
   @Input()
   classNames: any = {
@@ -25,9 +23,13 @@ export class WeatherComponent {
     normal: false
   };
 
-    showLoader = false;
-
+  showLoader = false;
   changeService = 'openWeather';
+
+  ngOnInit(): void {
+    localStorage.clear();
+  }
+
 
   constructor(
     private weatherService: WeatherService,

@@ -7,8 +7,8 @@
 
   <app-loader  *ngIf="!enableSend"></app-loader>
 
-  <input [(ngModel)]="country" name="country" type="text" placeholder="Enter country..."/>
-  <input [(ngModel)]="city" name="city" type="text" placeholder="Enter city..."/>
+  <input [(ngModel)]="country" name="country" type="text"  placeholder="Enter country..."/>
+  <input [(ngModel)]="city" name="city" type="text"  placeholder="Enter city..."/>
   <div class="btn-container" [class.es-disabled]="!enableSend || !country || !city">
     <button (click)="getWeather()">Get weather</button>
     <div class="left-block"></div>

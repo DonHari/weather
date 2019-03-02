@@ -7,12 +7,12 @@ import {catchError, delay, map, retryWhen, scan, take} from 'rxjs/operators';
 const headers = new HttpHeaders();
 // .set('Access-Control-Allow-Origin', '*')
 
-
 @Injectable({
   providedIn: 'root'
 })
 
 export class HttpRequestService {
+
 
   constructor(
     private http: HttpClient
