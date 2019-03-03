@@ -67,7 +67,6 @@ export class WeatherComponent implements OnInit {
 
   private updateResult(response: any) {
     this.defaultClassNames();
-    console.log('response', response, typeof response);
     if (response.status !== 0 ) {
       this.result = response;
       this.setClassName(parseFloat(response));

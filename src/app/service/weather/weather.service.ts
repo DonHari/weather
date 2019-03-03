@@ -1,7 +1,7 @@
 import {Injectable, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {HttpRequestService} from "../request/http-request.service";
-import {startWith} from "rxjs/operators";
+import {HttpCacheService} from "../cache/http-cache.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class WeatherService {
 
   constructor(
     private http: HttpClient,
-    private httpRequest: HttpRequestService
+    private httpRequest: HttpRequestService,
+    private cache: HttpCacheService
   ) {}
 
 
@@ -23,7 +24,7 @@ export class WeatherService {
     const url = this.prepareRequestUrl(country, city);
 
     // Check for cache values
-    if ( this.checkForCache(url, 60) ) {
+    if ( this.cache.checkForCache(url, 60) ) {
 
       let currentData = JSON.parse(localStorage[url]);
       callback(this.toCelsies(currentData.result));
@@ -33,7 +34,7 @@ export class WeatherService {
       this.sendRequest(url)
         .subscribe(
           (response: any) => {
-            this.setToLocalStorage(url, response);
+            this.cache.setToLocalStorage(url, response);
             callback(this.toCelsies(response));
           },
           error => {
@@ -50,38 +51,8 @@ export class WeatherService {
     return this.httpRequest.sendHttpGetRequest(url);
   }
 
-  private setToLocalStorage(url, response) {
-    let curDate = this.getCurrentDateInSeconds();
-    console.log('curDate 1', curDate);
-    localStorage[url] = JSON.stringify({
-      result: response,
-      start: curDate
-    });
-  }
-
-  private getCurrentDateInSeconds(): number {
-    let date = (Date.now() / 1000).toFixed(0);
-    return parseFloat(date);
-  }
-
-  private checkForCache(url, timeInSeconds) {
-    let curDate: number = this.getCurrentDateInSeconds();
-
-    if (localStorage[url]) {
-      let curStorage = JSON.parse(localStorage[url]);
-      if ((curDate - curStorage.start) > timeInSeconds) {
-        localStorage.removeItem(url);
-        return false;
-      } else {
-        return true;
-      }
-    }
-    return false;
-  }
-
 
   private toCelsies(response) {
-    console.log('to celvin');
     return parseFloat(this.getTemperatureFromResponse(response)) - 275;
   }
 
