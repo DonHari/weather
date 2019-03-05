@@ -34,43 +34,62 @@ export class DarkskyWeatherService {
 
   getWeather(country: string, city: string, callback) {
 
+    // geocode cache
+    if (this.cache.checkForInfinityCache(`${city}&${country}`)) {
+      let currentGeocode = JSON.parse(localStorage[`${city}&${country}`]);
 
-    this.getGeocode(city, country).subscribe((response: any) => {
-      if (response && response.results) {
-        this.lat = this.getCoordinatesFromResponse(response).lat;
-        this.lng = this.getCoordinatesFromResponse(response).lng;
+      this.lat = this.getCoordinatesFromResponse(currentGeocode.result).lat;
+      this.lng = this.getCoordinatesFromResponse(currentGeocode.result).lng;
 
-        const url = this.prepareRequestUrl();
+      const url = this.prepareRequestUrl();
+      this.getTemperature(url, callback);
 
+    }
+    else {
+      this.getGeocode(city, country).subscribe(
+        (response: any) => {
+          if (response && response.results) {
 
+            this.cache.setToLocalStorage(`${city}&${country}`, response);
 
-        if ( this.cache.checkForCache(url, 60) ) {
+            this.lat = this.getCoordinatesFromResponse(response).lat;
+            this.lng = this.getCoordinatesFromResponse(response).lng;
 
-          let currentData = JSON.parse(localStorage[url]);
-          callback(this.getInCelsius(currentData.result));
+            const url = this.prepareRequestUrl();
+            this.getTemperature(url, callback);
+          }
+        },
+        error => {
+          error.status = 0;
+          callback(error);
+        });
+    }
+  }
 
-        } else {
-        this.sendRequest(url).subscribe(
-          (weatherResp: any) => {
+  private getTemperature(url, callback){
+    // if cache available
+    if (this.cache.checkForCache(url, 60)) {
+
+      let currentData = JSON.parse(localStorage[url]);
+      callback(this.getInCelsius(currentData.result));
+
+    }
+    else {
+      this.sendRequest(url).subscribe(
+        (weatherResp: any) => {
 
           if (weatherResp) {
+            // set value to cache
             this.cache.setToLocalStorage(url, weatherResp.currently.temperature);
-
             callback(this.getInCelsius(weatherResp.currently.temperature));
           }
         },
-          error => {
-            error.status = 0;
-            callback(error);
-          }
-          );
+        error => {
+          error.status = 0;
+          callback(error);
         }
-      }
-    },
-      error => {
-        error.status = 0;
-        callback(error);
-      });
+      );
+    }
   }
 
    private prepareRequestUrl(): string {

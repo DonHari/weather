@@ -12,6 +12,11 @@ export class HttpCacheService {
     return parseFloat(date);
   }
 
+  public checkForInfinityCache(key): boolean {
+    return !!localStorage[key];
+
+  }
+
   public checkForCache(url, timeInSeconds): boolean {
     let curDate: number = this.getCurrentDateInSeconds();
 
@@ -27,9 +32,9 @@ export class HttpCacheService {
     return false;
   }
 
-  public setToLocalStorage(url, response) {
+  public setToLocalStorage(key, response) {
     let curDate = this.getCurrentDateInSeconds();
-    localStorage[url] = JSON.stringify({
+    localStorage[key] = JSON.stringify({
       result: response,
       start: curDate
     });
