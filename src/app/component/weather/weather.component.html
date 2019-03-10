@@ -7,8 +7,19 @@
 
   <app-loader  *ngIf="!enableSend"></app-loader>
 
-  <input [(ngModel)]="country" name="country" type="text"  placeholder="Enter country..."/>
-  <input [(ngModel)]="city" name="city" type="text"  placeholder="Enter city..."/>
+  <input [(ngModel)]="country" name="country" type="text" [formControl]="countryControl" [matAutocomplete]="autoTest" placeholder="Enter country..."/>
+  <mat-autocomplete #autoTest="matAutocomplete">
+    <mat-option *ngFor="let opt of filteredCountryOptions | async" [value]="opt">
+      {{opt}}
+    </mat-option>
+  </mat-autocomplete>
+  <input [(ngModel)]="city" name="city" type="text" matInput [formControl]="cityControl" [matAutocomplete]="auto" placeholder="Enter city..."/>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let curCity of filteredCityOptions | async" [value]="curCity">
+      {{curCity}}
+    </mat-option>
+  </mat-autocomplete>
+
   <div class="btn-container" [class.es-disabled]="!enableSend || !country || !city">
     <button (click)="getWeather()">Get weather</button>
     <div class="left-block"></div>
@@ -26,3 +37,4 @@
     </div>
   </div>
 </div>
+

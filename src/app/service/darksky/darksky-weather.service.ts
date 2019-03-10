@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
 import {GeocodeService} from '../coordinates/geocode.service';
 import {HttpRequestService} from '../request/http-request.service';
 import {HttpCacheService} from "../cache/http-cache.service";
