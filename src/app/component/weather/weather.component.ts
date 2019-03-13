@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {WeatherService} from '../../service/weather/weather.service';
 import {DarkskyWeatherService} from '../../service/darksky/darksky-weather.service';
 import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
+import {interval, Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
 
 
@@ -27,11 +27,11 @@ export class WeatherComponent implements OnInit {
   private result: string;
   private enableSend = true;
 
-  @Input()
-  classNames: any = {
-    cold: false,
-    hot: false,
-    normal: false
+  private currentGradVal1 = 6;
+  private currentGradVal2 = 12;
+
+  styleNames: any = {
+    background: 'linear-gradient(to bottom, hsl(' + this.currentGradVal1 + ' ,96%,42%) 0%, hsl(' + this.currentGradVal2 + ', 100%,55%) 100%)'
   };
 
   showLoader = false;
@@ -72,7 +72,7 @@ export class WeatherComponent implements OnInit {
   }
 
   getWeather() {
-    
+    console.log(this.styleNames);
     if (this.enableSend) {
       this.enableSend = false;
       this.checkForNewData(this.city, this.cities);
@@ -99,42 +99,74 @@ export class WeatherComponent implements OnInit {
   }
 
 
-  getClassNames() {
-    return this.classNames;
+  getStyles() {
+    return this.styleNames;
   }
 
   private updateResult(response: any) {
-    this.defaultClassNames();
     if (response.status !== 0 ) {
       console.log('result', typeof parseFloat(response).toFixed(0));
       this.result = parseFloat(response).toFixed(0);
-      this.setClassName(parseFloat(response));
+      this.setStylesName(parseFloat(response));
     } else {
       this.result = 'Error happened, try again later';
     }
     this.enableSend = true;
   }
 
+  private calcValues(val1, val2){
+    return val1 - val2;
+  }
 
-  private defaultClassNames(): void {
 
-    for (const className in this.classNames) {
-      if (this.classNames.hasOwnProperty(className)) {
-        this.classNames[className] = false;
+  private intervalSetStyles(val1, val2){
+    let maxIteratorSteps = 20;
+    let step1 = +(this.calcValues(this.currentGradVal1, val1) / maxIteratorSteps).toFixed(0);
+    let step2 = +(this.calcValues(this.currentGradVal2, val2) / maxIteratorSteps).toFixed(0);
+
+    let currentInterval = setInterval(() => {
+
+
+    if (step1 < 0){
+      this.currentGradVal1 = this.currentGradVal1 + Math.abs(step1);
+      this.currentGradVal2 = this.currentGradVal2 + Math.abs(step2);
+
+      if (this.currentGradVal1 >= val1 || this.currentGradVal2 >= val2){
+        this.currentGradVal1 = val1;
+        this.currentGradVal2 = val2;
+        clearInterval(currentInterval);
       }
     }
+    else{
+      this.currentGradVal1 = this.currentGradVal1 - Math.abs(step1);
+      this.currentGradVal2 = this.currentGradVal2 - Math.abs(step2);
 
+      if (this.currentGradVal1 <= val1 || this.currentGradVal2 <= val2){
+        this.currentGradVal1 = val1;
+        this.currentGradVal2 = val2;
+        clearInterval(currentInterval);
+      }
+    }
+      this.setStyles();
+
+    }, 50);
   }
 
-  private setClassName(temp): void {
+  private setStyles(){
+    this.styleNames = {
+      background: 'linear-gradient(to bottom, hsl(' + this.currentGradVal1 + ' ,96%,42%) 0%, hsl(' + this.currentGradVal2 + ', 100%,55%) 100%)'
+    };
+  }
+
+
+  private setStylesName(temp): void {
     if (temp <= 0) {
-      this.classNames.cold = true;
+      this.intervalSetStyles(195, 210);
     } else if (temp >= 25) {
-      this.classNames.hot = true;
+      this.intervalSetStyles(330, 345);
     } else {
-      this.classNames.normal = true;
+      this.intervalSetStyles(30, 45);
     }
   }
-
 
 }

@@ -47,19 +47,19 @@
 :host-context{
   transition: all .5s linear;
   background-size: cover;
-  background: transparent url("https://archangelsanddevas.files.wordpress.com/2013/10/rays-of-light.jpg?width=600");
-  &.cold{
-    background-size: cover;
-    background: url("https://financialtribune.com/sites/default/files/field/image/november/11_6_winter_apps_550_lead-ed.jpg");
-  }
-  &.hot{
-    background-size: cover;
-    background: url("https://flexappealreno.com/wp-content/uploads/2017/04/summer-photographer-pier-adventure.jpg");
-  }
-  &.normal{
-    background-size: cover;
-    background: url("https://peopledotcom.files.wordpress.com/2018/03/tulip-field-sunrise-spring-equinox.jpg");
-  }
+  //background: transparent url("https://archangelsanddevas.files.wordpress.com/2013/10/rays-of-light.jpg?width=600");
+  //&.cold{
+  //  background-size: cover;
+  //  background: url("https://financialtribune.com/sites/default/files/field/image/november/11_6_winter_apps_550_lead-ed.jpg");
+  //}
+  //&.hot{
+  //  background-size: cover;
+  //  background: url("https://flexappealreno.com/wp-content/uploads/2017/04/summer-photographer-pier-adventure.jpg");
+  //}
+  //&.normal{
+  //  background-size: cover;
+  //  background: url("https://peopledotcom.files.wordpress.com/2018/03/tulip-field-sunrise-spring-equinox.jpg");
+  //}
 
   .es-form-elm{
     display: flex;

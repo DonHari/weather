@@ -12,9 +12,8 @@ export class AppComponent {
   @ViewChild(WeatherComponent)
   weatherBlock: WeatherComponent;
 
-
-  getCurrentClassNames() {
-    return this.weatherBlock.getClassNames();
+  getStyles() {
+    return this.weatherBlock.getStyles();
   }
 
 }
